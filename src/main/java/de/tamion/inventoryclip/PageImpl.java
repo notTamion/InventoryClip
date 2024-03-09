@@ -18,15 +18,18 @@ import java.util.HashMap;
 class PageImpl implements Page {
 
     private final Inventory inventory;
-    private MiniMessage miniMessage = MiniMessage.miniMessage();
+    public final JavaPlugin plugin;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
     private final HashMap<Integer, ButtonLogic> buttonLogics = new HashMap<>();
 
     public PageImpl(String name, int rows, JavaPlugin plugin) {
+        this.plugin = plugin;
         this.inventory = Bukkit.createInventory(this, rows*9, miniMessage.deserialize(name));
         EventManager.registerHandler(plugin);
     }
 
     public PageImpl(String name, InventoryType type, JavaPlugin plugin) {
+        this.plugin = plugin;
         this.inventory = Bukkit.createInventory(this, type, miniMessage.deserialize(name));
         EventManager.registerHandler(plugin);
     }
@@ -39,13 +42,7 @@ class PageImpl implements Page {
     }
 
     @Override
-    public Page button(String name, Material material, String lore, ButtonLogic clickLogic, int position) {
-        this.buttonLogics.put(position, clickLogic);
-        ItemStack itemStack = new ItemStack(material);
-        itemStack.editMeta(itemMeta -> {
-            itemMeta.displayName(miniMessage.deserialize(name));
-            itemMeta.lore(miniMessage.deserialize(lore).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).children());
-        });
+    public Page info(ItemStack itemStack, int position) {
         this.inventory.setItem(position, itemStack);
         return this;
     }

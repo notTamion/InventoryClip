@@ -55,18 +55,14 @@ public interface Page extends InventoryHolder {
     Page button(@NotNull ItemStack itemStack, @NotNull ButtonLogic clickLogic, int position);
 
     /**
-     * Creates a new button in this page.
      *
-     * @param name the name of the button
-     * @param material the material of the button
-     * @param lore the lore of the button
-     * @param clickLogic the logic executed when a player clicks the item
-     * @param position the position of the button in the page
+     * @param itemStack the itemstack that will be used
+     * @param position the position of the info in the page
      * @return a reference to this object
      */
     @NotNull
-    @Contract("_, _, _, _, _ -> this")
-    Page button(@NotNull String name, @NotNull Material material, @NotNull String lore, @NotNull ButtonLogic clickLogic, int position);
+    @Contract("_, _ -> this")
+    Page info(@NotNull ItemStack itemStack, int position);
 
     /**
      * Shows the page to the specified player.
